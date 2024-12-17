@@ -2,10 +2,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DollarSign, Expand, Percent, RollerCoaster, Scale, ShoppingBasket, Sparkles, Undo2 } from "lucide-react";
 import { ChartOverview } from "@/components/chart/chart"
 import { PieChartOverview } from  "@/components/chart/piechart"
+import { auth } from "../../auth";
+import { redirect } from "next/navigation";
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth()
+  if(!session){
+    redirect("/api/auth/signin")
+  }
   return (
     <main className="sm:ml-14 p-4">
+      <div className="flex flex-col pb-5">
+        <h1 className="text-xl">Usuário</h1>
+        <p>{JSON.stringify(session.user?.name)}</p>
+        <p>{JSON.stringify(session.user?.email)}</p>
+      </div>
+
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-5 justify-center pb-5">
         <Card>
           <CardHeader>
